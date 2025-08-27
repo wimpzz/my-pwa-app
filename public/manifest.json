@@ -1,11 +1,11 @@
 {
-  "name": "My PWA App",
-  "short_name": "PWAApp",
+  "name": "St. Peter",
+  "short_name": "StPeter",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
-  "description": "My awesome Next.js PWA app",
+  "theme_color": "#0a0a0a",
+  "description": "Progressive Web App for St. Peter",
   "icons": [
     {
       "src": "/icons/StPeter192x192.png",

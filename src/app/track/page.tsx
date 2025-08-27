@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import React from "react";
 import { JourneyStep, JourneyTracker } from "journey-tracker-component";
 import { Provider } from "../../components/ui/provider";
 
@@ -10,30 +9,33 @@ export default function TrackMyApplication() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(
-      "http://192.168.23.185:82/SPASv2Repo/api/War/GetJourney?reqno=SPFC0001"
-    )
+    const apiBase = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiBase) {
+      setError("API URL is not defined.");
+      return;
+    }
+
+    fetch(`${apiBase}/SPASv2Repo/api/War/GetJourney?reqno=SPFC0001`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch");
         return res.json();
       })
       .then((data) => {
-        const mappedSteps: JourneyStep[] = data.map((item: any) => ({
+        const mapped: JourneyStep[] = data.map((item: any) => ({
           label: item.remarks?.replace(/\[.*?\]\s*-\s*/g, "") ?? item.approver,
-          status: item.status.trim().toLowerCase(), // Ensure lowercase
+          status: item.status.trim().toLowerCase(),
           dateTime:
-            item.approvedDate && item.approvedDate !== "1900-01-01T00:00:00"
+            item.approvedDate !== "1900-01-01T00:00:00" && item.approvedDate
               ? new Date(item.approvedDate).toLocaleString()
               : undefined,
         }));
-
-        setSteps(mappedSteps);
+        setSteps(mapped);
       })
       .catch((err) => setError(err.message));
   }, []);
 
   if (error)
-    return <div className="p-4 text-red-500">Failed to load journey data.</div>;
+    return <div className="p-4 text-red-500">Error: {error}</div>;
   if (!steps) return <div className="p-4">Loading...</div>;
 
   return (

@@ -1,10 +1,10 @@
 {
-  "name": "St. Peter",
+  "name": "St.Peter Finance App",
   "short_name": "StPeter",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0a0a0a",
+  "theme_color": "#18b869",
   "description": "Progressive Web App for St. Peter",
   "icons": [
     {

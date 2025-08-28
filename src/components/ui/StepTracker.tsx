@@ -19,8 +19,8 @@ const statusStyles = {
     icon: "✅",
   },
   current: {
-    bg: "bg-red-100", // red background for current step
-    dot: "bg-red-5000", // red dot for current step
+    bg: "bg-blue-100",
+    dot: "bg-blue-500",
     icon: "🟢",
   },
   pending: {
@@ -29,11 +29,12 @@ const statusStyles = {
     icon: "🕒",
   },
   failed: {
-    bg: "bg-pink-100",
+    bg: "bg-red-100",
     dot: "bg-red-500",
     icon: "❌",
   },
 };
+
 
 const StepTracker: React.FC<StepTrackerProps> = ({ steps }) => {
   return (

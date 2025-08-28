@@ -9,13 +9,7 @@ export default function TrackMyApplication() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const apiBase = process.env.NEXT_PUBLIC_API_URL;
-    if (!apiBase) {
-      setError("API URL is not defined.");
-      return;
-    }
-
-    fetch(`${apiBase}/SPASv2Repo/api/War/GetJourney?reqno=SPFC0001`)
+    fetch(`/api/War/GetJourney?reqno=SPFC0001`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch");
         return res.json();
@@ -25,7 +19,7 @@ export default function TrackMyApplication() {
           label: item.remarks?.replace(/\[.*?\]\s*-\s*/g, "") ?? item.approver,
           status: item.status.trim().toLowerCase(),
           dateTime:
-            item.approvedDate !== "1900-01-01T00:00:00" && item.approvedDate
+            item.approvedDate && item.approvedDate !== "1900-01-01T00:00:00"
               ? new Date(item.approvedDate).toLocaleString()
               : undefined,
         }));
@@ -40,9 +34,7 @@ export default function TrackMyApplication() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">
-        Track My Application
-      </h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Track My Application</h1>
       <Provider>
         <JourneyTracker steps={steps} />
       </Provider>

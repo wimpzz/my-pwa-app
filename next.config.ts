@@ -6,6 +6,13 @@ const withPWA = require('next-pwa')({
 })
 
 module.exports = withPWA({
-  // Other Next.js config options can go here
+  async rewrites() {
+    return [
+      {
+        source: '/api/War/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/SPASv2Repo/api/War/:path*`,
+      },
+    ];
+  },
 })
 

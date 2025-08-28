@@ -8,6 +8,25 @@ export default function TrackMyApplication() {
   const [steps, setSteps] = useState<JourneyStep[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const hardcodedSteps: JourneyStep[] = [
+    {
+      label:
+        "[Application Submitted] - Your application was successfully submitted",
+      status: "completed",
+      dateTime: "Aug 27, 2025 10:23 AM",
+    },
+    {
+      label:
+        "[Application For Verification] - Your application is currently verifying",
+      status: "current",
+    },
+    {
+      label:
+        "[Application For Disbursement] - Your application is pending for disbursement",
+      status: "pending",
+    },
+  ];
+
   useEffect(() => {
     fetch(`/api/War/GetJourney?reqno=SPFC0001`)
       .then((res) => {
@@ -25,16 +44,28 @@ export default function TrackMyApplication() {
         }));
         setSteps(mapped);
       })
-      .catch((err) => setError(err.message));
+      .catch((err) => {
+        console.error(err);
+        setError(err.message);
+        // Fallback to hardcoded steps when fetch fails
+        setSteps(hardcodedSteps);
+      });
   }, []);
 
-  if (error)
-    return <div className="p-4 text-red-500">Error: {error}</div>;
   if (!steps) return <div className="p-4">Loading...</div>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Track My Application</h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6">
+        Track My Application
+      </h1>
+
+      {error && (
+        <div className="p-4 text-yellow-700 bg-yellow-100 rounded">
+          Failed to load online data. Showing default steps instead.
+        </div>
+      )}
+
       <Provider>
         <JourneyTracker steps={steps} />
       </Provider>

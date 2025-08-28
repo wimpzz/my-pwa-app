@@ -17,12 +17,26 @@ export default function TrackApplication() {
   const [error, setError] = useState<string | null>(null);
 
   const hardcodedSteps: Step[] = [
-    { label: "Application Submitted", status: "completed", dateTime: "Aug 27, 2025 10:23 AM" },
-    { label: "Under Review", status: "current" },
-    { label: "Approved", status: "pending" },
+    {
+      label:
+        "[Application Submitted] - Your application was successfully submitted ",
+      status: "completed",
+      dateTime: "Aug 27, 2025 10:23 AM",
+    },
+    {
+      label:
+        "[Application For Verification] - Your application is currently verifying",
+      status: "current",
+    },
+    {
+      label:
+        "[Application For Verification] - Your application is pending for disbursement",
+      status: "pending",
+    },
   ];
 
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => setReqNo(e.target.value);
+  const handleInput = (e: ChangeEvent<HTMLInputElement>) =>
+    setReqNo(e.target.value);
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -38,10 +52,18 @@ export default function TrackApplication() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-semibold text-gray-800 mb-6">Track Loan Application</h1>
+      <h1 className="text-3xl font-semibold text-gray-800 mb-6">
+        Track Loan Application
+      </h1>
 
-      <form onSubmit={handleSearch} className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm">
-        <label htmlFor="reqNo" className="block text-sm font-medium text-gray-700">
+      <form
+        onSubmit={handleSearch}
+        className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm"
+      >
+        <label
+          htmlFor="reqNo"
+          className="block text-sm font-medium text-gray-700"
+        >
           Request Number:
         </label>
         <input
@@ -66,7 +88,9 @@ export default function TrackApplication() {
 
       {steps && (
         <div className="mt-8 w-full max-w-md bg-gray-100 p-4 rounded-lg">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Application Progress</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Application Progress
+          </h2>
           <StepTracker steps={steps} />
         </div>
       )}
